@@ -2,10 +2,9 @@
 🌐 INDUWARA-MD OFFICIAL README
 Theme: Blue Neon Glow ✨
 ============================== -->
-
 <p align="center">
   <a href="https://git.io/typing-svg">
-    <img src="https://readme-typing-svg.demolab.com?font=Black+Ops+One&size=90&pause=1000&color=00BFFF&center=true&width=1000&height=150&lines=VILON-X-MD NEW" alt="Typing SVG" />
+    <img src="https://readme-typing-svg.demolab.com?font=Black+Ops+One&size=90&pause=1000&color=BF00FF&center=true&vCenter=true&width=1000&height=150&lines=VILON-X-MD+NEW;THE+ULTIMATE+WHATSAPP+BOT;CREATED+BY+INDUWARA" alt="Typing SVG" />
   </a>
 </p>
 
@@ -55,7 +54,7 @@ make it the perfect all-in-one MD bot for users and devs alike!
 > Click below to get your **VILON-X-MD**Pair Code 👇
 
 <p align="left">
-<a href="https://induwara-md-pair.onrender.com" target="_blank">
+<a href="https://kavi-x-bot.onrender.com/pair.html" target="_blank">
   <img alt="Pair Code" src="https://img.shields.io/badge/Get%20Pairing%20Code-0066FF?style=for-the-badge&logo=whatsapp&logoColor=white"/>
 </a>
 </p>
@@ -66,21 +65,21 @@ make it the perfect all-in-one MD bot for users and devs alike!
 
 #### 🔹 Deploy on **Heroku**
 <p align="left">
-<a href="https://dashboard.heroku.com/new?template=https://github.com/IsiraInduwara/INDUWARA-MD" target="_blank">
+<a href="https://dashboard.heroku.com/new?template=https://github.com/induwaraisiray/VILON-X-MD" target="_blank">
   <img alt="Deploy on Heroku" src="https://img.shields.io/badge/Deploy%20on-Heroku-1877F2?style=for-the-badge&logo=heroku&logoColor=white"/>
 </a>
 </p>
 
 #### 🔹 Deploy on **Koyeb**
 <p align="left">
-<a href="https://app.koyeb.com/services/deploy?type=git&repository=IsiraInduwara/INDUWARA-MD&ports=3000" target="_blank">
+<a href="https://app.koyeb.com/services/deploy?type=git&repository=induwaraisiray/VILON-X-MD&ports=3000" target="_blank">
   <img alt="Deploy on Koyeb" src="https://img.shields.io/badge/Deploy%20on-Koyeb-00BFFF?style=for-the-badge&logo=koyeb&logoColor=white"/>
 </a>
 </p>
 
 #### 🔹 Deploy on **Render**
 <p align="left">
-<a href="https://render.com/deploy?repo=https://github.com/IsiraInduwara/INDUWARA-MD" target="_blank">
+<a href="https://render.com/deploy?repo=https://github.com/induwaraisiray/VILON-X-MD" target="_blank">
   <img alt="Deploy on Render" src="https://img.shields.io/badge/Deploy%20on-Render-007FFF?style=for-the-badge&logo=render&logoColor=white"/>
 </a>
 </p>
