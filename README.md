@@ -26,9 +26,9 @@ Theme: Blue Neon Glow ✨
 
 ---
 
-## 💬 About INDUWARA-MD
+## 💬 About VILON-X-MD
 
-**INDUWARA-MD** is a fast, powerful and modern **WhatsApp Multi-Device Bot**  
+**VILON-X-MD** is a fast, powerful and modern **WhatsApp Multi-Device Bot**  
 developed to make automation, group moderation, and fun easy — all in one bot.
 
 🧠 Features like AI Chat, Auto-Reply, Downloaders, Stickers, and Group Tools  
@@ -52,7 +52,7 @@ make it the perfect all-in-one MD bot for users and devs alike!
 ## ⚙️ Setup & Deployment
 
 ### 🪄 Pairing Code (Session ID)
-> Click below to get your **INDUWARA-MD Pair Code** 👇
+> Click below to get your **VILON-X-MD**Pair Code** 👇
 
 <p align="left">
 <a href="https://induwara-md-pair.onrender.com" target="_blank">
