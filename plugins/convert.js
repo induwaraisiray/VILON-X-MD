@@ -111,7 +111,6 @@ cmd({
   }
 });
 
- */
 cmd({
   pattern: "readmore",
   desc: "Readmore message",
