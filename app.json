@@ -1,0 +1,90 @@
+{
+  "name": "VILON-X-MD",
+  "description": "Javascript WhatsApp bot made by isira induwara",
+  "logo": "https://i.ibb.co/LD5jTBf5/8954.jpg",
+  "keywords": ["VILON-X-MD"],
+  "success_url": "/",
+
+    "stack": "container",
+  "env": {
+    "SESSION_ID": {
+      "description": "Put the session-id here.",
+      "required": true,
+      "value": ""
+    },  
+    
+      
+    "PREFIX": {
+      "description": "paste your bot prefix note! Don't apply null prefix.",
+      "required": false,
+      "value": "."
+    },
+    
+    "MODE": {
+      "description": "select your bot work type public-private-inbox-group.",
+      "required": false,
+      "value": "public"
+      
+    },
+    
+    
+    "ALWAYS_ONLINE": {
+      "description": "Make it true if want always online.",
+      "required": false,
+      "value": "true"  
+    },    
+
+
+    "AUTO_STATUS_SEEN": {
+      "description": "Make it true for automatic status seen.",
+      "required": true,
+      "value": "true"
+    }, 
+
+    "AUTO_STATUS_REACT": {
+      "description": "make it true for automatic status reaction or like.",
+      "required": true,
+      "value": "true"
+    }, 
+
+    "AUTO_STATUS_REPLY": {
+      "description": "Make it true for auto reply msg on status seen.",
+      "required": true,
+      "value": "false"
+    }, 
+
+    "AUTO_STATUS_MSG": {
+      "description": "Type custom message on status reply",
+      "required": true,
+      "value": "*SEEN YOUR STATUS 👋*"
+   
+     },  
+
+    "AUTO_REACT": {
+      "description": "Make it true if you want react on every message.",
+      "required": false,
+      "value": "true"
+    },
+    
+    "ANTI_DEL_PATH": {
+      "description": "change it to -same- if you want to resend deleted message in same chat",
+      "required": false,
+      "value": "log"
+    }, 
+
+    "READ_MESSAGE": {
+      "description": "Make it true if you want bot read your all sms just now.",
+      "required": false,
+      "value": "false"
+    }
+
+},
+
+     "buildpacks": [
+        {
+            "url": "https://github.com/heroku/heroku-buildpack-nodejs.git"
+        }
+     ],
+  "stack": "heroku-24"
+}
+  
