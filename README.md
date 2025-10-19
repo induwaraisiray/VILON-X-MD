@@ -52,7 +52,7 @@ make it the perfect all-in-one MD bot for users and devs alike!
 ## ⚙️ Setup & Deployment
 
 ### 🪄 Pairing Code (Session ID)
-> Click below to get your **VILON-X-MD**Pair Code** 👇
+> Click below to get your **VILON-X-MD**Pair Code 👇
 
 <p align="left">
 <a href="https://induwara-md-pair.onrender.com" target="_blank">
