@@ -182,7 +182,7 @@ cmd({
             },
             '4': {
                 title: "📥 *Download Menu*",
-                content: 📥 Ξ DOWNLOAD COMMAND LIST: Ξ
+                content: `📥 Ξ DOWNLOAD COMMAND LIST: Ξ
 ╭──────────●●►
 │ヤ Command : *facebook*
 │ヤ Use : .facebook — Download FB Videos
