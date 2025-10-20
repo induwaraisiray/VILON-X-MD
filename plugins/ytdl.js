@@ -2,170 +2,159 @@ const config = require('../config');
 const { cmd } = require('../command');
 const yts = require('yt-search');
 const fetch = require('node-fetch');
+const { fetchJson, resizeImage } = require('../lib/functions');
 const ddownr = require('denethdev-ytmp3');
-const { resizeImage } = require('../lib/functions');
 
-// 🎥 Helper: Extract YouTube Video ID
-
-function replaceYouTubeID(url) {
-    const regex = /(?:youtube\.com\/(?:.*v=|.*\/)|youtu\.be\/|youtube\.com\/embed\/|youtube\.com\/shorts\/)([a-zA-Z0-9_-]{11})/;
-    const match = url.match(regex);
-    return match ? match[1] : null;
-
-
-// 🧩 Helper: Normalize query or link
-function convertYouTubeLink(input) {
-  const videoId = extractYouTubeId(input);
-  return videoId ? `https://www.youtube.com/watch?v=${videoId}` : input;
+// ✅ YouTube URL Extractor (fixed regex)
+function extractYouTubeId(url) {
+  const regex = /(?:https?:\/\/)?(?:www\.)?(?:youtube\.com\/(?:watch\?v=|embed\/|v\/|shorts\/)|youtu\.be\/)([a-zA-Z0-9_-]{11})/;
+  const match = url.match(regex);
+  return match ? match[1] : null;
 }
 
-/*───────────────────────────────*
- 🎧 SONG COMMAND (MP3 DOWNLOAD)
-*───────────────────────────────*/
+// ✅ Convert input (query or link) to YouTube URL if needed
+function convertYouTubeLink(input) {
+  const videoId = extractYouTubeId(input);
+  if (videoId) {
+    return `https://www.youtube.com/watch?v=${videoId}`;
+  }
+  return input;
+}
+
+// =================================================================
+// 🎵 SONG DOWNLOADER COMMAND (.song2)
+// =================================================================
 cmd({
-  pattern: "song",
-  alias: ["ytsong"],
-  use: ".song <query or url>",
+  pattern: "song2",
+  alias: ["ytsong2"],
+  use: ".song2 <query or url>",
   react: '🎧',
-  desc: "Download songs from YouTube (MP3)",
+  desc: "Download songs from YouTube",
   category: "Download",
   filename: __filename
-}, async (conn, m, store, { from, q, reply }) => {
+}, async (conn, m, store, { from, prefix, q, reply }) => {
   try {
-    if (!q) return await reply("*Please enter a YouTube title or URL!*");
+    if (!q) {
+      return await reply("*Please enter a query or YouTube URL!*");
+    }
 
-    // Step 1: Searching...
-    const progressMsg = await reply("🔎 *Searching your song...*");
-    const cleanQuery = convertYouTubeLink(q.trim());
-    const search = await yts(cleanQuery);
-    const video = search.videos[0];
-    if (!video) return await reply("❌ *No results found!*");
+    const cleanQuery = q.replace(/\?si=[^&]*/, '');
+    const fixedQuery = convertYouTubeLink(cleanQuery);
+    const searchResult = await yts(fixedQuery);
+    const video = searchResult.videos[0];
+
+    if (!video) {
+      return await reply("❌ *No video found for your search!*");
+    }
 
     const caption = `
-🎶 *VILON-X SONG DOWNLOADER* 🎶
+🎶 *VISPER SONG DOWNLOADER* 🎶
 
 ┌────────────────────┐
 │ 🎵 *Title:* ${video.title}
 │ 👁️ *Views:* ${video.views}
 │ ⏱️ *Duration:* ${video.timestamp}
-│ 📅 *Published:* ${video.ago}
 │ 🔗 *URL:* ${video.url}
 └────────────────────┘
 `;
 
-    // Step 2: Show video info
-    await conn.sendMessage(from, { image: { url: video.thumbnail }, caption }, { quoted: m });
-    await conn.sendMessage(from, { react: { text: '⬇️', key: m.key } });
-    await conn.sendMessage(from, { edit: progressMsg.key, text: "🎧 *Downloading audio... please wait...*" });
+    await conn.sendMessage(from, {
+      image: { url: video.thumbnail },
+      caption
+    });
 
-    // Step 3: Download audio
-    const result = await ddownr.download(video.url, 'mp3');
-    const audioUrl = result.downloadUrl;
-    if (!audioUrl) return await reply("*⚠️ Failed to get audio link!*");
+    const apiUrl = `https://sadas-ytmp3-5.vercel.app/convert?link=${video.url}`;
+    const result = await fetchJson(apiUrl);
+    const audioUrl = result?.url;
 
-    // Step 4: Upload audio
-    await conn.sendMessage(from, { edit: progressMsg.key, text: "⬆️ *Uploading audio...*" });
+    if (!audioUrl) {
+      return await reply("*⚠️ Failed to get audio download link.*");
+    }
+
     await conn.sendMessage(from, {
       audio: { url: audioUrl },
-      mimetype: "audio/mpeg",
-      ptt: false
+      mimetype: "audio/mpeg"
     }, { quoted: m });
 
-    // Step 5: Send as file
     const thumbResponse = await fetch(video.thumbnail);
     const thumbBuffer = await thumbResponse.buffer();
     const resizedThumb = await resizeImage(thumbBuffer, 200, 200);
 
     await conn.sendMessage(from, {
       document: { url: audioUrl },
-      mimetype: "audio/mpeg",
-      fileName: `${video.title}.mp3`,
       jpegThumbnail: resizedThumb,
-      caption: `✨ *${yts.title}* ✨\n> 🎶 *Powered By VILON-X-MD*`
+      caption: config.FOOTER,
+      mimetype: "audio/mpeg",
+      fileName: `${video.title}.mp3`
     }, { quoted: m });
-
-    // Done
-    await conn.sendMessage(from, { edit: progressMsg.key, text: "✅ *Song download complete!*" });
-    await conn.sendMessage(from, { react: { text: '✅', key: m.key } });
 
   } catch (err) {
     console.error(err);
-    await reply("❌ *Error: Could not process your request.*");
+    await reply("❌ *Error: Could not process the request.*");
   }
 });
 
-
-/*───────────────────────────────*
- 📽️ VIDEO COMMAND (MP4 DOWNLOAD)
-*───────────────────────────────*/
+// =================================================================
+// 🎬 VIDEO DOWNLOADER COMMAND (.video2)
+// =================================================================
 cmd({
-  pattern: "video",
-  alias: ["ytvideo"],
-  use: ".video <query or url>",
+  pattern: "video2",
+  alias: ["ytvideo2"],
+  use: ".video2 <query or url>",
   react: '📽️',
-  desc: "Download videos from YouTube (MP4)",
+  desc: "Download YouTube videos (MP4)",
   category: "Download",
   filename: __filename
-}, async (conn, m, store, { from, q, reply }) => {
+}, async (conn, m, store, { from, prefix, q, reply }) => {
   try {
-    if (!q) return await reply("*Please enter a YouTube title or URL!*");
+    if (!q) {
+      return await reply("*Please enter a YouTube link or search query!*");
+    }
 
-    // Step 1: Searching...
-    const progressMsg = await reply("🔎 *Searching your video...*");
-    const cleanQuery = convertYouTubeLink(q.trim());
-    const search = await yts(cleanQuery);
-    const video = search.videos[0];
-    if (!video) return await reply("❌ *No results found!*");
+    const cleanQuery = q.replace(/\?si=[^&]*/, '');
+    const fixedQuery = convertYouTubeLink(cleanQuery);
+    const search = await yts(fixedQuery);
+    const data = search.videos[0];
 
-    const caption = `
-🎬 *VILON-X VIDEO DOWNLOADER* 🎬
+    if (!data) {
+      return await reply("❌ *No video found!*");
+    }
 
-┌────────────────────┐
-│ 🎞️ *Title:* ${video.title}
-│ 👁️ *Views:* ${video.views}
-│ ⏱️ *Duration:* ${video.timestamp}
-│ 📅 *Published:* ${video.ago}
-│ 🔗 *URL:* ${video.url}
-└────────────────────┘
+    const desc = `
+🎬 *VISPER VIDEO DOWNLOADER*
+
+◆ 🎞️ *Title:* ${data.title}
+◆ ⏱️ *Duration:* ${data.timestamp}
+◆ 👁️ *Views:* ${data.views}
+◆ 📅 *Uploaded:* ${data.ago}
+◆ 🔗 *URL:* ${data.url}
 `;
 
-    // Step 2: Show video info
-    await conn.sendMessage(from, { image: { url: video.thumbnail }, caption }, { quoted: m });
+    await conn.sendMessage(from, {
+      image: { url: data.thumbnail },
+      caption: desc,
+    }, { quoted: m });
+
     await conn.sendMessage(from, { react: { text: '⬇️', key: m.key } });
-    await conn.sendMessage(from, { edit: progressMsg.key, text: "🎥 *Downloading video... please wait...*" });
 
-    // Step 3: Download MP4
-    const result = await ddownr.download(video.url, 'mp4');
+    // 🎞️ Use ddownr to get video download link
+    const result = await ddownr.download(data.url, 'mp4');
     const videoUrl = result.downloadUrl;
-    if (!videoUrl) return await reply("*⚠️ Failed to get video link!*");
 
-    // Step 4: Upload video
-    await conn.sendMessage(from, { edit: progressMsg.key, text: "⬆️ *Uploading video...*" });
+    if (!videoUrl) {
+      return await reply("⚠️ *Failed to get video download link!*");
+    }
+
     await conn.sendMessage(from, {
       video: { url: videoUrl },
-      caption: `🎥 *${video.title}*\n\n${config.FOOTER || ''}`,
-      mimetype: "video/mp4"
-    }, { quoted: m });
-
-    // Step 5: Send as file
-    const thumbResponse = await fetch(video.thumbnail);
-    const thumbBuffer = await thumbResponse.buffer();
-    const resizedThumb = await resizeImage(thumbBuffer, 200, 200);
-
-    await conn.sendMessage(from, {
-      document: { url: videoUrl },
       mimetype: "video/mp4",
-      fileName: `${video.title}.mp4`,
-      jpegThumbnail: resizedThumb,
-      caption: `✨ *${yts.title}* ✨\n> 🎬 *Powered By VILON-X-MD*`
+      caption: `🎬 ${data.title}`,
     }, { quoted: m });
 
-    // Done
-    await conn.sendMessage(from, { edit: progressMsg.key, text: "✅ *Video download complete!*" });
     await conn.sendMessage(from, { react: { text: '✅', key: m.key } });
 
   } catch (err) {
     console.error(err);
     await reply("❌ *Error: Could not process your request.*");
   }
-});            
+});      
