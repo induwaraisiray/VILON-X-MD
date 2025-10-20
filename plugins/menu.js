@@ -8,7 +8,7 @@ cmd({
     pattern: "menu",
     desc: "Show interactive menu system",
     category: "menu",
-    react: "🧾",
+    react: "📂",
     filename: __filename
 }, async (conn, mek, m, { from, reply, pushname }) => {
     try {
@@ -21,7 +21,6 @@ cmd({
 *│ ❐ 𝐓𝚢𝚙𝐞* : NodeJs
 *│ ❐ 𝐏𝚛𝐞𝐟𝐢𝐱* : [${config.PREFIX}]
 *│ ❐ 𝐕𝚎𝐫𝐬𝐢𝐨𝐧* : 1.0.0 Bᴇᴛᴀ 
-*╰━━━━━━━━━━━━━━◯*
 ╭──◯
 ┆ *_⭓ BOT MENU ITEMS_*
 ┆ ⭔1️⃣ *Main menu*
@@ -54,7 +53,7 @@ cmd({
                 return await conn.sendMessage(
                     from,
                     {
-                        image: { url: 'https://i.ibb.co/bjPrbF84/3174.jpg' },
+                        image: { url: 'https://files.catbox.moe/9l6abf.jpg' },
                         caption: menuCaption,
                         contextInfo: contextInfo
                     },
@@ -464,7 +463,7 @@ cmd({
                                 await conn.sendMessage(
                                     senderID,
                                     {
-                                        image: { url: 'https://files.catbox.moe/3y5w8z.jpg' },
+                                        image: { url: 'https://files.catbox.moe/9l6abf.jpg' },
                                         caption: selectedMenu.content,
                                         contextInfo: contextInfo
                                     },
