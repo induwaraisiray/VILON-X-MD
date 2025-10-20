@@ -6,11 +6,12 @@ const ddownr = require('denethdev-ytmp3');
 const { resizeImage } = require('../lib/functions');
 
 // 🎥 Helper: Extract YouTube Video ID
-function extractYouTubeId(url) {
-  const regex = /(?:https?:\/\/)?(?:www\.)?(?:youtube\.com\/(?:watch\\?v=|embed\\/|v\\/|shorts\\/)|youtu\\.be\\/)([a-zA-Z0-9_-]{11})/;
-  const match = url.match(regex);
-  return match ? match[1] : null;
-}
+
+function replaceYouTubeID(url) {
+    const regex = /(?:youtube\.com\/(?:.*v=|.*\/)|youtu\.be\/|youtube\.com\/embed\/|youtube\.com\/shorts\/)([a-zA-Z0-9_-]{11})/;
+    const match = url.match(regex);
+    return match ? match[1] : null;
+
 
 // 🧩 Helper: Normalize query or link
 function convertYouTubeLink(input) {
