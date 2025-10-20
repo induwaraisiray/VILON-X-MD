@@ -672,14 +672,14 @@ ${truncatedCode}
 
         // Send image with truncated source code
         await conn.sendMessage(from, { 
-            image: { url: `https://files.catbox.moe/rexuf8.jpg` },  // Image URL
+            image: { url: `https://files.catbox.moe/9l6abf.jpg` },  // Image URL
             caption: formattedCode,
             contextInfo: {
                 mentionedJid: [m.sender],
                 forwardingScore: 999,
                 isForwarded: true,
                 forwardedNewsletterMessageInfo: {
-                    newsletterJid: '120363420933039839@newsletter',
+                    newsletterJid: '12036342838333039839@newsletter',
                     newsletterName: '𝚅𝙸𝙻𝙾𝙽-𝚇-𝙼𝙳',
                     serverMessageId: 143
                 }
