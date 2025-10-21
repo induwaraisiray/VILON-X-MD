@@ -54,7 +54,7 @@ make it the perfect all-in-one MD bot for users and devs alike!
 > Click below to get your **VILON-X-MD**Pair Code 👇
 
 <p align="left">
-<a href="https://kavi-x-bot.onrender.com/pair.html" target="_blank">
+<a href="https://khanmd-pair.onrender.com/" target="_blank">
   <img alt="Pair Code" src="https://img.shields.io/badge/Get%20Pairing%20Code-0066FF?style=for-the-badge&logo=whatsapp&logoColor=white"/>
 </a>
 </p>
