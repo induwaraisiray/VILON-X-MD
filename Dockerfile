@@ -6,10 +6,10 @@ FROM node:lts-buster
 RUN npm install -g pm2
 
 # 3. Code එක clone කිරීම (මෙය /QUEEN-SADU-MD-V2 ෆෝල්ඩරය සාදයි)
-RUN git clone https://github.com/induwaraisiray/VILON-X-MD-
+RUN git clone https://github.com/induwaraisiray/VILON-X-MD
 
 # 4. වැඩ කරන Directory එක නිවැරදි ෆෝල්ඩරයට වෙනස් කිරීම
-WORKDIR /VILON-X-MD-
+WORKDIR /VILON-X-MD
 
 # 5. dependencies ස්ථාපනය කිරීම
 # කලින් වගේ && පාවිච්චි නොකර, npm install එක අසාර්ථක වුවත් yarn install එක ක්‍රියාත්මක වීමට || පාවිච්චි කරන්න.
