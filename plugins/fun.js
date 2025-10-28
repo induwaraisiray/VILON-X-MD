@@ -396,7 +396,6 @@ async (conn, mek, m, { from, quoted, body, isCmd, command, args, q, isGroup, sen
     }
 });
 
-
 cmd({
     pattern: "animegirl",
     desc: "Fetch a random anime girl image.",
@@ -406,11 +405,11 @@ cmd({
 },
 async (conn, mek, m, { from, quoted, body, isCmd, command, args, q, isGroup, sender, senderNumber, botNumber2, botNumber, pushname, isMe, isOwner, groupMetadata, groupName, participants, groupAdmins, isBotAdmins, isAdmins, reply }) => {
     try {
-        const apiUrl = `https://api.waifu.pics/sfw/waifu`;
+        const apiUrl = `https://apis.sandarux.sbs/api/animeporn/random`;
         const response = await axios.get(apiUrl);
         const data = response.data;
 
-        await conn.sendMessage(from, { image: { url: data.url }, caption: '👧 *Random Anime Girl Image* 👧\n> *©👨🏼‍💻 ᴩᴏᴡᴇʀᴇᴅ ʙy ʜᴀꜱʜɪyᴀ ᴄᴏᴅᴇʀ 👨🏼‍💻ッ*' }, { quoted: mek });
+        await conn.sendMessage(from, { image: { url: data.url }, caption: '👧 *Random Anime Girl Image* 👧\n> *©𝙿𝙾𝚆𝙴𝚁𝙳 𝙱𝚈 𝚅𝙸𝙻𝙾𝙽-𝚇-𝙼𝙳ッ*' }, { quoted: mek });
     } catch (e) {
         console.log(e);
         reply(`*Error Fetching Anime Girl image*: ${e.message}`);
