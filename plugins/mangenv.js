@@ -68,7 +68,7 @@ cmd({
     return reply(`✅ Prefix successfully changed to *${newPrefix}*`);
 });
 
-Cmd({
+cmd({
     pattern: "mode",
     alias: ["setmode"],
     react: "🫟",
