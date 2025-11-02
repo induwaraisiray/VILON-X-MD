@@ -35,10 +35,6 @@ function getTotalUsers() {
   }
 }
 
-const os = require('os');
-const config = require('../config');
-const { cmd, commands, runtime } = require('../command');
-
 cmd({
     pattern: "alive",
     desc: "Show interactive bot status",
