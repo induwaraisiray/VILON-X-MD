@@ -36,7 +36,7 @@ function getTotalUsers() {
 }
 
 cmd({
-    pattern: "alive",
+    pattern: "live",
     desc: "Show interactive bot status",
     category: "main",
     react: "⚡",
