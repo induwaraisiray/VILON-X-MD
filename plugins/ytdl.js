@@ -99,7 +99,7 @@ cmd({
 // =================================================================
 
 cmd({ 
-     pattern: "song", 
+     pattern: "ytmp3", 
      alias: ["yta", "play"], 
      react: "🎶", 
      desc: "Download Youtube song",
@@ -184,7 +184,7 @@ cmd({
 });
 
 cmd({
-  pattern: "song1",
+  pattern: "song",
   react: "🎶",
   desc: "Download YouTube song with format choice",
   category: "main",
