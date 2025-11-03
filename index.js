@@ -269,7 +269,24 @@ const port = process.env.PORT || 9090;
           m.react(randomReaction);
       }
   }
-        
+//================ CHATBOT SYSTEM ==============
+if (config.CHAT_BOT === 'true') {
+    const quotedText = message?.quoted?.body?.toLowerCase() || '';
+    if (quotedText) {
+        try {
+            const response = await fetch(
+                "https://apis.sandarux.sbs/api/ai/claude?text=" + encodeURIComponent(quotedText)
+            );
+            const data = await response.json();
+            await sock.sendMessage(chatId, { text: data?.result?.data || "🤖 AI Error" });
+        } catch (err) {
+            console.error("AI Chat Error:", err);
+            await sock.sendMessage(chatId, { text: "🤖 Error occurred." });
+        }
+    }
+}
+
+
   //==========WORKTYPE============ 
   if(!isOwner && config.MODE === "private") return
   if(!isOwner && isGroup && config.MODE === "inbox") return
