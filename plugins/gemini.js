@@ -1,65 +1,78 @@
 const { cmd } = require('../command');
 const axios = require("axios");
 
-// API CONFIG
-const GEMINI_API_KEY = 'AIzaSyC8pSIvRTtYS-ZghDZWWPUY360gEFB37hM';  // Replace
+// === GEMINI API CONFIG ===
+const GEMINI_API_KEY = 'AIzaSyC8pSIvRTtYS-ZghDZWWPUY360gEFB37hM'; 
 const GEMINI_API_URL = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${GEMINI_API_KEY}`;
 
-// 🧠 Session store
-let geminiSessions = {}; 
+// === CHATBOT STATUS ===
+let chatbotEnabled = false;
 
+// ==================================================
+// 🔹 CHATBOT CONTROL COMMAND (ON / OFF / STATUS)
+// ==================================================
 cmd({
-  pattern: "chat",
-  react: '🤖',
-  desc: "Talk with Google Gemini AI.",
+  pattern: "chatbot",
+  desc: "Turn chatbot on, off, or check status",
+  react: "🤖",
   category: "ai",
-  use: ".chat <Your Question>",
+  use: ".chatbot on / off / status",
   filename: __filename
-}, async (conn, mek, m, { reply, args, pushname, sender }) => {
-  try {
-    const text = args.join(" ");
-    if (!text) {
-      return reply("❗ Please give me a question.");
-    }
+}, async (conn, mek, m, { reply, args }) => {
+  const option = (args[0] || "").toLowerCase();
 
-    // 🧠 Create new session
-    geminiSessions[sender] = true;  
-
-    const prompt = `My name is ${pushname}. Your name is VILON-X-MD AI. You are a WhatsApp AI bot created by Induwara. Answer in the same language I'm using. Answer naturally, like a human, not a bot. Add meaningful emojis. My question is: ${text}`;
-
-    const payload = {
-      contents: [{ parts: [{ text: prompt }] }]
-    };
-
-    const response = await axios.post(GEMINI_API_URL, payload, { headers: { "Content-Type": "application/json" } });
-
-    const aiResponse = response.data?.candidates?.[0]?.content?.parts?.[0]?.text;
-    if (!aiResponse) return reply("❌ No response from AI 😢");
-
-    await reply(aiResponse);
-
-  } catch (error) {
-    console.error("Gemini Error:", error.response?.data || error.message);
-    reply("❌ Error talking to AI.");
+  // Turn ON chatbot
+  if (option === "on") {
+    chatbotEnabled = true;
+    reply("✅ *Chatbot Activated!* Now I’ll reply to every message automatically 🤖✨");
+    return;
   }
+
+  // Turn OFF chatbot
+  if (option === "off") {
+    chatbotEnabled = false;
+    reply("🛑 *Chatbot Deactivated!* I’ll stop auto replying.");
+    return;
+  }
+
+  // Show chatbot status
+  if (option === "status") {
+    const status = chatbotEnabled ? "🟢 *ON*" : "🔴 *OFF*";
+    reply(`🤖 *Chatbot Status:* ${status}`);
+    return;
+  }
+
+  // Invalid option
+  reply("⚙️ Usage: `.chatbot on` | `.chatbot off` | `.chatbot status`");
 });
 
-
-// 📌 Auto reply to session messages
+// ==================================================
+// 🔹 AUTO CHATBOT MESSAGE HANDLER
+// ==================================================
 cmd({
-  on: "message"   // catch all messages
+  on: "message"
 }, async (conn, mek, m, { reply, body, sender, pushname }) => {
   try {
-    if (!geminiSessions[sender]) return; // Only reply if session is active
-    if (body.startsWith(".")) return;    // Avoid commands
+    // If chatbot is disabled → ignore
+    if (!chatbotEnabled) return;
 
-    const prompt = `My name is ${pushname}. Your name is Rasindu AI. You are a WhatsApp AI bot created by Rasindu(රසිදු). Answer in the same language I'm using. Answer naturally, like a human, not a bot. Add meaningful emojis. My message is: ${body}`;
+    // Ignore commands (start with .)
+    if (!body || body.startsWith(".")) return;
 
-    const payload = {
-      contents: [{ parts: [{ text: prompt }] }]
-    };
+    // === Gemini Prompt ===
+    const prompt = `
+    My name is ${pushname}.
+    Your name is VILON-X-MD AI.
+    You are a smart and friendly WhatsApp assistant created by Induwara.
+    Reply in the same language I use, naturally like a human, and include meaningful emojis.
+    My message: ${body}
+    `;
 
-    const response = await axios.post(GEMINI_API_URL, payload, { headers: { "Content-Type": "application/json" } });
+    const payload = { contents: [{ parts: [{ text: prompt }] }] };
+
+    const response = await axios.post(GEMINI_API_URL, payload, {
+      headers: { "Content-Type": "application/json" }
+    });
 
     const aiResponse = response.data?.candidates?.[0]?.content?.parts?.[0]?.text;
     if (!aiResponse) return;
@@ -67,6 +80,6 @@ cmd({
     await reply(aiResponse);
 
   } catch (error) {
-    console.error("Gemini Auto Reply Error:", error.response?.data || error.message);
+    console.error("🤖 Chatbot Error:", error.response?.data || error.message);
   }
-});
+});    
