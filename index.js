@@ -269,31 +269,31 @@ const port = process.env.PORT || 9090;
           m.react(randomReaction);
       }
   }
-//================ CHATBOT SYSTEM ==============
-if (config.CHAT_BOT === 'true') {
-    const quotedText = message?.quoted?.body?.toLowerCase() || '';
-    if (quotedText) {
+// ================== CHATBOT SYSTEM ==================
+if (config.CHAT_BOT === "true") {
+    if (message.quoted) {
+        const userMessage = message.body ? message.body.toLowerCase() : '';
+
         try {
-            const response = await fetch(
-                "https://apis.sandarux.sbs/api/ai/claude?text=" + encodeURIComponent(quotedText)
-            );
+            // Fetch AI response from Claude API
+            const response = await fetch(`https://apis.sandarux.sbs/api/ai/claude?text=${encodeURIComponent(userMessage)}`);
             const data = await response.json();
-            await sock.sendMessage(chatId, { text: data?.result?.data || "🤖 AI Error" });
-        } catch (err) {
-            console.error("AI Chat Error:", err);
-            await sock.sendMessage(chatId, { text: "🤖 Error occurred." });
+
+            // Send AI response back to chat
+            await sock.sendMessage(chatId, { text: data.result.data });
+        } catch (error) {
+            console.error("AI Chat Error:", error);
+            await sock.sendMessage(chatId, { text: '.' });
         }
     }
 }
 
+// ================== WORK TYPE FILTER ==================
+if (!isOwner && config.MODE === "private") return; // Only owner can use in private mode
+if (!isOwner && isGroup && config.MODE === "inbox") return; // Block group messages if mode is inbox
+if (!isOwner && !isGroup && config.MODE === "groups") return; // Block private messages if mode is groups
 
-  //==========WORKTYPE============ 
-  if(!isOwner && config.MODE === "private") return
-  if(!isOwner && isGroup && config.MODE === "inbox") return
-  if(!isOwner && !isGroup && config.MODE === "groups") return
-   
-  // take commands 
-                 
+	  // take commands 
   const events = require('./command')
   const cmdName = isCmd ? body.slice(1).trim().split(" ")[0].toLowerCase() : false;
   if (isCmd) {
