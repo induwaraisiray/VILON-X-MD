@@ -9,6 +9,7 @@ SESSION_ID: process.env.SESSION_ID || "IK~ic9HCBTa#wYVXGRGcxNO4AiaYhjHNJkfn7XVQ5
 AUTO_STATUS_SEEN: process.env.AUTO_STATUS_SEEN || "true",
 AUTO_STATUS_REPLY: process.env.AUTO_STATUS_REPLY || "false",
 AUTO_STATUS_REACT: process.env.AUTO_STATUS_REACT || "true",
+AUTO_VOICE: process.env.AUTO_VOICE || "true",    
 PREFIX: process.env.PREFIX || ".",
 READ_MESSAGE: process.env.READ_MESSAGE || "true",
 AUTO_REACT: process.env.AUTO_REACT || "false",
