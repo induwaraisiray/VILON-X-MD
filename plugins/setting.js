@@ -3,8 +3,8 @@ const {cmd , commands} = require('../command')
 const os = require("os")
 
 cmd({
-    pattern: "set",
-    alias: ["set"],
+    pattern: "setting",
+    alias: ["settings"],
     desc: "settings the bot",
     category: "owner",
     react: "⚙",
@@ -75,7 +75,7 @@ async (conn, mek, m, { from, isOwner, quoted, reply }) => {
 
         // --- NEW STYLE SETTINGS MESSAGE END ---
 
-        const vv = await conn.sendMessage(from, { image: { url: "https://i.ibb.co/kV09yDBR/5813.jpg"}, caption: desc }, { quoted: mek });
+        const vv = await conn.sendMessage(from, { image: { url: "https://files.catbox.moe/wwufnr.jpg"}, caption: desc }, { quoted: mek });
 
         conn.ev.on('messages.upsert', async (msgUpdate) => {
             const msg = msgUpdate.messages[0];
