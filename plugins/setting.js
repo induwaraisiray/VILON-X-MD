@@ -158,7 +158,7 @@ async (conn, mek, m, { from, isOwner, quoted, reply }) => {
                         reply(".auto-reply on");
                     break;
                     case '13.2':    
-                        reply(".aauto-reply off");
+                        reply(".auto-reply off");
                     break; 
                     case '14.1':    
                         reply(".status-react on");
