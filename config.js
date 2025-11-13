@@ -28,7 +28,7 @@ READ_CMD: process.env.READ_CMD || "false",
 DESCRIPTION: process.env.DESCRIPTION || "*• © ᴩᴏᴡᴇʀᴅ ʙʏ ᴠɪʟᴏɴ-x ᴍᴅ •*",
 DEV: process.env.DEV || "94740544995",
 ANTI_VV: process.env.ANTI_VV || "true",
-ANTI_DELETE: process.env.ANTI_DELETE || "false",
+ANTI_DELETE: process.env.ANTI_DELETE || "true",
 ANTI_DEL_PATH: process.env.ANTI_DEL_PATH || "inbox",     
 };
 
