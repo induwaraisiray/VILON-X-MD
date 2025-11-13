@@ -153,7 +153,7 @@ sendNotification(); // async ශ්‍රිතය අමතන්න
 > *🛒 FOLLOW WHATSAPP CHANNEL :* https://whatsapp.com/channel/0029Vb6FspM6RGJNsF4Sfs31
 
 > *© 𝗣ᴏᴡᴇʀᴅ 𝗕ʏ 𝗩ɪʟᴏɴ-X-ᴍ𝗗*`;
-    conn.sendMessage(conn.user.id, { image: { url: `https://i.ibb.co/kV09yDBR/5813.jpg` }, caption: up })
+    conn.sendMessage(conn.user.id, { image: { url: `https://files.catbox.moe/wwufnr.jpg` }, caption: up })
   }
   })
   conn.ev.on('creds.update', saveCreds)
