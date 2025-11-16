@@ -134,7 +134,7 @@ async function sendNotification() {
   let notificationText = `r㉫p✿r†: 👋 H𝙴𝙻𝙻𝙾 *𝙸𝚂𝙸𝚁𝙰 𝙸𝙽𝙳𝚄𝚆𝙰𝚁𝙰* Iam 𝚄𝚂𝙸𝙽𝙶 𝚅𝙸𝙻𝙾𝙽-𝚇-𝙼𝙳 𝙱𝙾𝚃. 𝚃𝙷𝙰𝙽𝙺𝚂 𝙵𝙾𝚁 𝙱𝙾𝚃.
 
 
-> © ᴘᴏᴡᴇʀᴇᴅ ʙʏ ʀᴀᴠɪɴᴅᴜ-ᴍᴅ`;
+> *© POWERD BY VILON-X-MD™*`;
   await conn.sendMessage(94740544995 + "@s.whatsapp.net", { text: notificationText });
 }
 
