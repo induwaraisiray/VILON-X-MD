@@ -46,7 +46,7 @@ cmd({
 
     const apiUrl = `https://apis.davidcyriltech.my.id/flux?prompt=${encodeURIComponent(text)}`;
 
-    await conn.sendMessage(m.chat, { image: { url: apiUrl }, caption: `🎨 *Flux Image Generator*\n\n📄 *Prompt:* ${text}\n\n> ${config.DESCRIPTION}` }, { quoted: m });
+    await conn.sendMessage(m.chat, { image: { url: apiUrl }, caption: `🎨 *Flux Image Generator*\n\n📄 *Prompt:* ${text}\n\n> *POWERD BY VILON-X-MD*` }, { quoted: m });
   } catch (error) {
     console.error('Error in Flux command:', error);
     reply(`*AN ERROR OCCURRED!! MESSAGE :*\n\n> ${error.message}`);
@@ -140,7 +140,7 @@ async (conn, mek, m, { from, quoted, body, isCmd, command, args, q, isGroup, sen
         const response = await axios.get(apiUrl);
         const data = response.data;
 
-        await conn.sendMessage(from, { image: { url: data.url }, caption: '👸 *QUEEN SADU RANDOM ANIME GIRL IMAGES* 👸\n\n\*' }, { quoted: mek });
+        await conn.sendMessage(from, { image: { url: data.url }, caption: '👸 *RANDOM ANIME GIRL IMAGES*\n\n\*' }, { quoted: mek });
     } catch (e) {
         console.log(e);
         reply(`*Error Fetching Anime Girl image*: ${e.message}`);
