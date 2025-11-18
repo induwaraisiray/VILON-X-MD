@@ -102,7 +102,7 @@ cmd({
     }
 
     // Fetch images from the Bing Image Search API
-    const response = await axios.get(`https://api.siputzx.my.id/api/s/bimg?query=${encodeURIComponent(query)}`);
+    const response = await axios.get(`https://apis.sandarux.sbs/api/tools/bing-search?query=${encodeURIComponent(query)}`);
     const { status, data } = response.data;
 
     if (!status || !data || data.length === 0) {
@@ -110,7 +110,7 @@ cmd({
     }
 
     // Select the first 5 images
-    const images = data.slice(0, 5);
+    const images = data.slice(0, 10);
 
     // Send each image as an attachment
     for (const imageUrl of images) {
