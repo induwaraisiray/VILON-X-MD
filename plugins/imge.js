@@ -90,40 +90,43 @@ cmd({
 cmd({
   pattern: "img",
   alias: ["aiimg3", "bingimage"],
-  desc: "Search for images using Bing and send 5 results.",
+  desc: "Search for images using Bing and send 10 results.",
   category: "utility",
-  use: ".bingimg <query>",
+  use: ".img dog",
   filename: __filename,
 }, async (conn, mek, msg, { from, args, reply }) => {
   try {
     const query = args.join(" ");
-    if (!query) {
-      return reply("❌ Please provide a search query. Example: `.bingimg dog`");
+    if (!query) return reply("❌ Please provide a search query. Example: `.img dog`");
+
+    // Fetch images from API
+    const response = await axios.get(
+      `https://apis.sandarux.sbs/api/tools/bing-search?query=${encodeURIComponent(query)}`
+    );
+
+    const { status, result } = response.data;
+
+    // Validate
+    if (!status || !result || result.length === 0) {
+      return reply("❌ No images found for your query.");
     }
 
-    // Fetch images from the Bing Image Search API
-    const response = await axios.get(`https://apis.sandarux.sbs/api/tools/bing-search?query=${encodeURIComponent(query)}`);
-    const { status, data } = response.data;
+    // Take first 10 results
+    const images = result.slice(0, 10);
 
-    if (!status || !data || data.length === 0) {
-      return reply("❌ No images found for the specified query. Please try again.");
-    }
-
-    // Select the first 5 images
-    const images = data.slice(0, 10);
-
-    // Send each image as an attachment
+    // Send one by one
     for (const imageUrl of images) {
       await conn.sendMessage(from, {
-        image: { url: imageUrl }, // Attach the image
-        caption: `🔍 *Bing Image Search*: ${query}`,
+        image: { url: imageUrl },
+        caption: `🔍 *Bing Image Search Result*\nQuery: _${query}_`,
       });
     }
   } catch (error) {
-    console.error("Error fetching images:", error);
-    reply("❌ Unable to fetch images. Please try again later.");
+    console.error("Image Search Error:", error);
+    reply("❌ Error: Unable to fetch images. Try again later.");
   }
 });
+
 
 
 
