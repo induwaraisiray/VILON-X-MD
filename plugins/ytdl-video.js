@@ -15,39 +15,62 @@ cmd({
         if (!q) return await reply("❌ Please provide a video name or YouTube URL!");
 
         let videoUrl, title;
-        
-        // Check if it's a URL
-        if (q.match(/(youtube\.com|youtu\.be)/)) {
-            videoUrl = q;
-            const videoInfo = await yts({ videoId: q.split(/[=/]/).pop() });
-            title = videoInfo.title;
+
+        // ===============================
+        //  CHECK IF INPUT IS YOUTUBE URL
+        // ===============================
+        if (/^(https?:\/\/)?(www\.)?(youtube\.com|youtu\.be)\//.test(q)) {
+
+            // Extract video ID safely
+            const id = q.split("v=")[1]?.split("&")[0] || q.split("/").pop();
+
+            if (!id) return reply("❌ Invalid YouTube URL!");
+
+            const search = await yts({ videoId: id });
+            if (!search || !search.title) return reply("❌ Unable to fetch video details!");
+
+            title = search.title;
+            videoUrl = `https://youtu.be/${id}`;
+
         } else {
-            // Search YouTube
+            // ===============================
+            //     NORMAL SEARCH MODE
+            // ===============================
             const search = await yts(q);
-            if (!search.videos.length) return await reply("❌ No results found!");
-            videoUrl = search.videos[0].url;
-            title = search.videos[0].title;
+            if (!search.videos.length) return reply("❌ No results found!");
+
+            const vid = search.videos[0];
+            videoUrl = vid.url;
+            title = vid.title;
         }
 
-        await reply("*⏳ Downloading video...*");
+        await reply("*⏳ Downloading your video... Please wait!*");
 
-        // Use API to get video
+        // ===============================
+        //       API CALL (FIXED)
+        // ===============================
         const apiUrl = `https://apis.sandarux.sbs/api/download/ytmp4?url=${encodeURIComponent(videoUrl)}`;
-        const response = await fetch(apiUrl);
-        const data = await response.json();
 
-        if (!data.success) return await reply("❌ Failed to download video!");
+        const res = await fetch(apiUrl);
+        const json = await res.json();
 
+        if (!json.status) {
+            return reply("❌ Failed to download video. Try another link.");
+        }
+
+        const videoLink = json.result.url;
+
+        // ===============================
+        //        SEND VIDEO (WORKING)
+        // ===============================
         await conn.sendMessage(from, {
-            video: { url: data.result.download_url },
-            mimetype: 'video/mp4',
-            caption: `*${title}*`
+            video: { url: videoLink },
+            mimetype: "video/mp4",
+            caption: `🎬 *${title}*\n\nDownloaded Successfully ✔️`
         }, { quoted: mek });
-
-        await reply(`✅ *${title}* downloaded successfully!`);
 
     } catch (error) {
         console.error(error);
-        await reply(`❌ Error: ${error.message}`);
+        await reply("❌ Error: " + error.message);
     }
 });
